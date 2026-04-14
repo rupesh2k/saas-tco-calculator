@@ -28,11 +28,11 @@ export function CostCategoryCard({ category, onUpdateCost, onUpdateName, onUpdat
 
   // Column widths
   const [colWidths, setColWidths] = useState({
-    item: 200,
-    qty: 70,
-    unitCost: 120,
-    period: 95,
-    cost: 110,
+    item: 180,
+    qty: 80,
+    unitCost: 80,
+    period: 90,
+    cost: 100,
   });
 
   const resizingRef = useRef<{ col: keyof typeof colWidths; startX: number; startWidth: number } | null>(null);
