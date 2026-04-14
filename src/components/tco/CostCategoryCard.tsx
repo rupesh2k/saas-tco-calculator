@@ -3,7 +3,7 @@ import { CostCategory, CostPeriod } from "@/types/tco";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Server, Database, HardDrive, Globe, FileKey, Wrench, MoreHorizontal, Plus, Trash2, GripVertical } from "lucide-react";
+import { Server, Database, HardDrive, Globe, FileKey, Wrench, MoreHorizontal, Plus, Trash2, GripVertical, CalendarClock, Calendar, CalendarRange } from "lucide-react";
 
 const iconMap: Record<string, React.ElementType> = {
   Server, Database, HardDrive, Globe, FileKey, Wrench, MoreHorizontal,
@@ -31,7 +31,7 @@ export function CostCategoryCard({ category, onUpdateCost, onUpdateName, onUpdat
     item: 200,
     qty: 70,
     unitCost: 120,
-    period: 90,
+    period: 80,
     cost: 110,
   });
 
@@ -168,14 +168,41 @@ export function CostCategoryCard({ category, onUpdateCost, onUpdateName, onUpdat
               />
             </div>
             <div style={{ width: colWidths.period }} className="pr-1">
-              <select
-                value={item.period || "monthly"}
-                onChange={(e) => onUpdatePeriod(item.id, e.target.value as CostPeriod)}
-                className="w-full h-9 text-xs rounded-md bg-muted/50 border-0 text-foreground focus:ring-1 focus:ring-ring px-2 cursor-pointer"
-              >
-                <option value="monthly">Monthly</option>
-                <option value="annual">Annual</option>
-              </select>
+              <div className="flex items-center justify-center gap-0.5 h-9 bg-muted/50 rounded-md p-0.5">
+                <button
+                  onClick={() => onUpdatePeriod(item.id, "daily")}
+                  className={`flex-1 h-full rounded-sm transition-colors ${
+                    item.period === "daily"
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-muted text-muted-foreground"
+                  }`}
+                  title="Daily"
+                >
+                  <CalendarClock size={14} className="mx-auto" />
+                </button>
+                <button
+                  onClick={() => onUpdatePeriod(item.id, "monthly")}
+                  className={`flex-1 h-full rounded-sm transition-colors ${
+                    item.period === "monthly"
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-muted text-muted-foreground"
+                  }`}
+                  title="Monthly"
+                >
+                  <Calendar size={14} className="mx-auto" />
+                </button>
+                <button
+                  onClick={() => onUpdatePeriod(item.id, "annual")}
+                  className={`flex-1 h-full rounded-sm transition-colors ${
+                    item.period === "annual"
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-muted text-muted-foreground"
+                  }`}
+                  title="Annual"
+                >
+                  <CalendarRange size={14} className="mx-auto" />
+                </button>
+              </div>
             </div>
             <div style={{ width: colWidths.cost }} className="pr-1">
               <span className="text-sm font-mono tabular-nums text-right text-muted-foreground block">

@@ -28,7 +28,7 @@ export function useTCOStore() {
                 const updated = { ...i, [field]: value };
                 if (field === "quantity" || field === "unitCost" || field === "period") {
                   const rawCost = updated.quantity * updated.unitCost;
-                  updated.monthlyCost = updated.period === "annual" ? rawCost / 12 : rawCost;
+                  updated.monthlyCost = updated.period === "annual" ? rawCost / 12 : updated.period === "daily" ? rawCost * 30 : rawCost;
                 }
                 return updated;
               }),

@@ -1,4 +1,4 @@
-export type CostPeriod = "monthly" | "annual";
+export type CostPeriod = "daily" | "monthly" | "annual";
 
 export interface CostItem {
   id: string;
@@ -6,7 +6,7 @@ export interface CostItem {
   quantity: number;
   unitCost: number;
   period: CostPeriod;
-  monthlyCost: number; // derived: (quantity * unitCost) / (period === "annual" ? 12 : 1)
+  monthlyCost: number; // derived: (quantity * unitCost) * (period === "daily" ? 30 : period === "annual" ? 1/12 : 1)
   notes: string;
 }
 
