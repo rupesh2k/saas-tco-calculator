@@ -1,0 +1,227 @@
+{
+  "categories": [
+    {
+      "id": "compute",
+      "label": "Compute",
+      "icon": "Server",
+      "items": [
+        {
+          "id": "openstack-vm",
+          "name": "Virtual Machines",
+          "quantity": 50,
+          "unitCost": 150,
+          "period": "monthly",
+          "monthlyCost": 7500,
+          "notes": "50 VMs @ $150/month each"
+        },
+        {
+          "id": "aws-ec2",
+          "name": "Cloud Compute (EC2/ECS)",
+          "quantity": 20,
+          "unitCost": 200,
+          "period": "monthly",
+          "monthlyCost": 4000,
+          "notes": "EC2 instances for scalable workloads"
+        },
+        {
+          "id": "kubernetes",
+          "name": "Container Orchestration",
+          "quantity": 3,
+          "unitCost": 800,
+          "period": "monthly",
+          "monthlyCost": 2400,
+          "notes": "K8s cluster nodes"
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "label": "Database",
+      "icon": "Database",
+      "items": [
+        {
+          "id": "mysql-vm",
+          "name": "Database Instances",
+          "quantity": 10,
+          "unitCost": 300,
+          "period": "monthly",
+          "monthlyCost": 3000,
+          "notes": "MySQL/PostgreSQL instances"
+        },
+        {
+          "id": "rds",
+          "name": "Managed Database",
+          "quantity": 5,
+          "unitCost": 450,
+          "period": "monthly",
+          "monthlyCost": 2250,
+          "notes": "AWS RDS for high availability"
+        },
+        {
+          "id": "redis",
+          "name": "Cache Layer",
+          "quantity": 8,
+          "unitCost": 100,
+          "period": "monthly",
+          "monthlyCost": 800,
+          "notes": "Redis for caching and session management"
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "icon": "HardDrive",
+      "items": [
+        {
+          "id": "ceph",
+          "name": "Block / Object Storage",
+          "quantity": 100,
+          "unitCost": 30,
+          "period": "monthly",
+          "monthlyCost": 3000,
+          "notes": "100 TB @ $30/TB/month"
+        },
+        {
+          "id": "s3",
+          "name": "Cloud Storage (S3/GCS)",
+          "quantity": 50,
+          "unitCost": 25,
+          "period": "monthly",
+          "monthlyCost": 1250,
+          "notes": "50 TB S3 storage"
+        },
+        {
+          "id": "block-storage",
+          "name": "File Storage",
+          "quantity": 20,
+          "unitCost": 40,
+          "period": "monthly",
+          "monthlyCost": 800,
+          "notes": "20 TB SSD block storage"
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "label": "Network & CDN",
+      "icon": "Globe",
+      "items": [
+        {
+          "id": "cloudflare",
+          "name": "Cloudflare",
+          "quantity": 1,
+          "unitCost": 2400,
+          "period": "annual",
+          "monthlyCost": 200,
+          "notes": "Enterprise CDN and DDoS protection"
+        },
+        {
+          "id": "load-balancer",
+          "name": "Load Balancer",
+          "quantity": 5,
+          "unitCost": 50,
+          "period": "monthly",
+          "monthlyCost": 250,
+          "notes": "Application load balancers"
+        },
+        {
+          "id": "bandwidth",
+          "name": "Bandwidth / Data Transfer",
+          "quantity": 100,
+          "unitCost": 12,
+          "period": "monthly",
+          "monthlyCost": 1200,
+          "notes": "100 TB data transfer @ $0.12/GB"
+        }
+      ]
+    },
+    {
+      "id": "licensing",
+      "label": "Licensing",
+      "icon": "FileKey",
+      "items": [
+        {
+          "id": "os-license",
+          "name": "OS Licenses (RHEL, Windows)",
+          "quantity": 30,
+          "unitCost": 50,
+          "period": "monthly",
+          "monthlyCost": 1500,
+          "notes": "Enterprise OS subscriptions"
+        },
+        {
+          "id": "software-license",
+          "name": "Software Licenses",
+          "quantity": 1,
+          "unitCost": 12000,
+          "period": "annual",
+          "monthlyCost": 1000,
+          "notes": "Enterprise software licenses"
+        },
+        {
+          "id": "monitoring",
+          "name": "Monitoring Tools",
+          "quantity": 1,
+          "unitCost": 800,
+          "period": "monthly",
+          "monthlyCost": 800,
+          "notes": "Datadog, New Relic, or similar"
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "label": "Operations & Support",
+      "icon": "Wrench",
+      "items": [
+        {
+          "id": "staff",
+          "name": "Staff / FTE Cost",
+          "quantity": 5,
+          "unitCost": 10000,
+          "period": "monthly",
+          "monthlyCost": 50000,
+          "notes": "5 FTE DevOps/SRE engineers"
+        },
+        {
+          "id": "backup",
+          "name": "Backup & DR",
+          "quantity": 1,
+          "unitCost": 2000,
+          "period": "monthly",
+          "monthlyCost": 2000,
+          "notes": "Backup and disaster recovery infrastructure"
+        },
+        {
+          "id": "security",
+          "name": "Security Tools",
+          "quantity": 1,
+          "unitCost": 1500,
+          "period": "monthly",
+          "monthlyCost": 1500,
+          "notes": "Security scanning, SIEM, compliance tools"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Other Costs",
+      "icon": "MoreHorizontal",
+      "items": [
+        {
+          "id": "misc-1",
+          "name": "Miscellaneous",
+          "quantity": 1,
+          "unitCost": 1000,
+          "period": "monthly",
+          "monthlyCost": 1000,
+          "notes": "Contingency and miscellaneous expenses"
+        }
+      ]
+    }
+  ],
+  "appCount": 1000000,
+  "annualGrowthRate": 15,
+  "projectionYears": 5
+}
