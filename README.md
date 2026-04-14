@@ -2,6 +2,8 @@
 
 An open-source Total Cost of Ownership (TCO) calculator for SaaS platforms and infrastructure cost modeling. Built with React, TypeScript, and Vite.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 ## Features
 
 - **Comprehensive Cost Modeling**: Track costs across multiple categories including compute, database, storage, network, licensing, and operations
