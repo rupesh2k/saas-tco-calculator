@@ -54,12 +54,20 @@ export function useTCOStore() {
     updateItemField(categoryId, itemId, "unitCost", unitCost);
   }, [updateItemField]);
 
-  const updateItemPeriod = useCallback((categoryId: string, itemId: string, period: "monthly" | "annual") => {
+  const updateItemPeriod = useCallback((categoryId: string, itemId: string, period: "monthly" | "annual" | "daily") => {
     updateItemField(categoryId, itemId, "period", period);
   }, [updateItemField]);
 
+  const updateItemCostType = useCallback((categoryId: string, itemId: string, costType: string) => {
+    updateItemField(categoryId, itemId, "costType", costType);
+  }, [updateItemField]);
+
+  const updateItemBehavior = useCallback((categoryId: string, itemId: string, behavior: string) => {
+    updateItemField(categoryId, itemId, "behavior", behavior);
+  }, [updateItemField]);
+
   const addItem = useCallback((categoryId: string) => {
-    const newItem: CostItem = { id: uid(), name: "New Item", quantity: 1, unitCost: 0, period: "monthly", monthlyCost: 0, notes: "" };
+    const newItem: CostItem = { id: uid(), name: "New Item", quantity: 1, unitCost: 0, period: "monthly", monthlyCost: 0, notes: "", behavior: "fixed" };
     setCategories((prev) =>
       prev.map((cat) => (cat.id === categoryId ? { ...cat, items: [...cat.items, newItem] } : cat))
     );
@@ -78,7 +86,7 @@ export function useTCOStore() {
       id: `cat-${nextId++}`,
       label,
       icon: "MoreHorizontal",
-      items: [{ id: uid(), name: "New Item", quantity: 1, unitCost: 0, period: "monthly", monthlyCost: 0, notes: "" }],
+      items: [{ id: uid(), name: "New Item", quantity: 1, unitCost: 0, period: "monthly", monthlyCost: 0, notes: "", behavior: "fixed" }],
     };
     setCategories((prev) => [...prev, newCat]);
   }, []);
@@ -169,6 +177,8 @@ export function useTCOStore() {
     updateItemQuantity,
     updateItemUnitCost,
     updateItemPeriod,
+    updateItemCostType,
+    updateItemBehavior,
     addItem,
     removeItem,
     addCategory,

@@ -12,7 +12,9 @@
           "unitCost": 150,
           "period": "monthly",
           "monthlyCost": 7500,
-          "notes": "50 VMs @ $150/month each"
+          "notes": "50 VMs @ $150/month each",
+          "costType": "base",
+          "behavior": "fixed"
         },
         {
           "id": "aws-ec2",
@@ -21,7 +23,9 @@
           "unitCost": 200,
           "period": "monthly",
           "monthlyCost": 4000,
-          "notes": "EC2 instances for scalable workloads"
+          "notes": "EC2 instances for scalable workloads",
+          "costType": "addon",
+          "behavior": "variable"
         },
         {
           "id": "kubernetes",
@@ -30,7 +34,9 @@
           "unitCost": 800,
           "period": "monthly",
           "monthlyCost": 2400,
-          "notes": "K8s cluster nodes"
+          "notes": "K8s cluster nodes",
+          "costType": "base",
+          "behavior": "fixed"
         }
       ]
     },
@@ -127,12 +133,14 @@
         },
         {
           "id": "bandwidth",
-          "name": "Bandwidth / Data Transfer",
+          "name": "Bandwidth / Data Transfer Overage",
           "quantity": 100,
           "unitCost": 12,
           "period": "monthly",
           "monthlyCost": 1200,
-          "notes": "100 TB data transfer @ $0.12/GB"
+          "notes": "100 TB data transfer @ $0.12/GB - exceeds included amount",
+          "costType": "overage",
+          "behavior": "variable"
         }
       ]
     },
@@ -148,7 +156,9 @@
           "unitCost": 50,
           "period": "monthly",
           "monthlyCost": 1500,
-          "notes": "Enterprise OS subscriptions"
+          "notes": "Enterprise OS subscriptions",
+          "costType": "minimum",
+          "behavior": "fixed"
         },
         {
           "id": "software-license",
@@ -157,16 +167,20 @@
           "unitCost": 12000,
           "period": "annual",
           "monthlyCost": 1000,
-          "notes": "Enterprise software licenses"
+          "notes": "Enterprise software licenses",
+          "costType": "base",
+          "behavior": "fixed"
         },
         {
           "id": "monitoring",
-          "name": "Monitoring Tools",
+          "name": "Monitoring Tools - Custom Metrics Overage",
           "quantity": 1,
           "unitCost": 800,
           "period": "monthly",
           "monthlyCost": 800,
-          "notes": "Datadog, New Relic, or similar"
+          "notes": "Datadog overage fees for custom metrics >10k",
+          "costType": "hidden",
+          "behavior": "variable"
         }
       ]
     },
@@ -182,7 +196,9 @@
           "unitCost": 10000,
           "period": "monthly",
           "monthlyCost": 50000,
-          "notes": "5 FTE DevOps/SRE engineers"
+          "notes": "5 FTE DevOps/SRE engineers",
+          "costType": "base",
+          "behavior": "fixed"
         },
         {
           "id": "backup",
@@ -191,16 +207,20 @@
           "unitCost": 2000,
           "period": "monthly",
           "monthlyCost": 2000,
-          "notes": "Backup and disaster recovery infrastructure"
+          "notes": "Backup and disaster recovery infrastructure",
+          "costType": "addon",
+          "behavior": "fixed"
         },
         {
           "id": "security",
-          "name": "Security Tools",
+          "name": "Premium Support (required >$10k/mo spend)",
           "quantity": 1,
           "unitCost": 1500,
           "period": "monthly",
           "monthlyCost": 1500,
-          "notes": "Security scanning, SIEM, compliance tools"
+          "notes": "Mandatory premium support tier at enterprise scale",
+          "costType": "support",
+          "behavior": "fixed"
         }
       ]
     },

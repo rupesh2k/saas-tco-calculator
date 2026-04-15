@@ -69,6 +69,8 @@ const Index = () => {
                 onUpdateQuantity={(itemId, qty) => store.updateItemQuantity(cat.id, itemId, qty)}
                 onUpdateUnitCost={(itemId, uc) => store.updateItemUnitCost(cat.id, itemId, uc)}
                 onUpdatePeriod={(itemId, p) => store.updateItemPeriod(cat.id, itemId, p)}
+                onUpdateCostType={(itemId, type) => store.updateItemCostType(cat.id, itemId, type)}
+                onUpdateBehavior={(itemId, behavior) => store.updateItemBehavior(cat.id, itemId, behavior)}
                 onAddItem={() => store.addItem(cat.id)}
                 onRemoveItem={(itemId) => store.removeItem(cat.id, itemId)}
                 onRemoveCategory={() => store.removeCategory(cat.id)}

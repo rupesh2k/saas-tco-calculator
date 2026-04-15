@@ -1,4 +1,6 @@
 export type CostPeriod = "daily" | "monthly" | "annual";
+export type CostType = "base" | "minimum" | "addon" | "overage" | "support" | "hidden";
+export type CostBehavior = "fixed" | "variable";
 
 export interface CostItem {
   id: string;
@@ -8,6 +10,8 @@ export interface CostItem {
   period: CostPeriod;
   monthlyCost: number; // derived: (quantity * unitCost) * (period === "daily" ? 30 : period === "annual" ? 1/12 : 1)
   notes: string;
+  costType?: CostType; // optional for backward compatibility
+  behavior?: CostBehavior; // optional for backward compatibility
 }
 
 export interface CostCategory {
