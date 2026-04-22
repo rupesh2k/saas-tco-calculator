@@ -1,5 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { CostCategory, DEFAULT_CATEGORIES, CostItem } from "@/types/tco";
+import { useGitHubStore } from "./useGitHubStore";
+import { useToast } from "@/hooks/use-toast";
 
 let nextId = 100;
 const uid = () => `item-${nextId++}`;
@@ -16,6 +18,8 @@ export function useTCOStore() {
   const [appCount, setAppCount] = useState(1_000_000);
   const [annualGrowthRate, setAnnualGrowthRate] = useState(10);
   const [projectionYears, setProjectionYears] = useState(5);
+  const githubStore = useGitHubStore();
+  const { toast } = useToast();
 
   const updateItemField = useCallback((categoryId: string, itemId: string, field: string, value: number | string) => {
     setCategories((prev) =>
@@ -164,6 +168,51 @@ export function useTCOStore() {
     input.click();
   }, []);
 
+  const loadFromGitHub = useCallback(async () => {
+    try {
+      const content = await githubStore.loadFromGitHub();
+      const data: TCOSnapshot = JSON.parse(content);
+
+      if (data.categories) setCategories(data.categories);
+      if (data.appCount) setAppCount(data.appCount);
+      if (data.annualGrowthRate !== undefined) setAnnualGrowthRate(data.annualGrowthRate);
+      if (data.projectionYears !== undefined) setProjectionYears(data.projectionYears);
+
+      toast({
+        title: "Loaded from GitHub",
+        description: `Configuration loaded from ${githubStore.settings?.owner}/${githubStore.settings?.repo}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to load from GitHub",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  }, [githubStore, toast]);
+
+  const saveToGitHub = useCallback(async (message: string) => {
+    try {
+      const snapshot: TCOSnapshot = { categories, appCount, annualGrowthRate, projectionYears };
+      const content = JSON.stringify(snapshot, null, 2);
+
+      await githubStore.saveToGitHub(content, message);
+
+      toast({
+        title: "Saved to GitHub",
+        description: `Configuration saved to ${githubStore.settings?.owner}/${githubStore.settings?.repo}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to save to GitHub",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  }, [categories, appCount, annualGrowthRate, projectionYears, githubStore, toast]);
+
   return {
     categories,
     appCount,
@@ -192,5 +241,8 @@ export function useTCOStore() {
     projections,
     exportToFile,
     importFromFile,
+    loadFromGitHub,
+    saveToGitHub,
+    githubStore,
   };
 }

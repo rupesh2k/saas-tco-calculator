@@ -1,14 +1,48 @@
+import { useState } from "react";
 import { useTCOStore } from "@/hooks/useTCOStore";
 import { SummaryCards } from "@/components/tco/SummaryCards";
 import { CostCategoryCard } from "@/components/tco/CostCategoryCard";
 import { AppCountPanel } from "@/components/tco/AppCountPanel";
 import { CostBreakdownChart } from "@/components/tco/CostBreakdownChart";
 import { GrowthProjectionChart } from "@/components/tco/GrowthProjectionChart";
-import { Calculator, Plus, Download, Upload } from "lucide-react";
+import { GitHubSettingsDialog } from "@/components/github/GitHubSettingsDialog";
+import { CommitMessageDialog } from "@/components/github/CommitMessageDialog";
+import { GitHubStatusIndicator } from "@/components/github/GitHubStatusIndicator";
+import { Calculator, Plus, Download, Upload, Github, Settings, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Index = () => {
   const store = useTCOStore();
+  const [showGitHubSettings, setShowGitHubSettings] = useState(false);
+  const [showCommitDialog, setShowCommitDialog] = useState(false);
+
+  const handleLoadFromGitHub = async () => {
+    if (!store.githubStore.isConnected) {
+      setShowGitHubSettings(true);
+      return;
+    }
+    await store.loadFromGitHub();
+  };
+
+  const handleSaveToGitHub = () => {
+    if (!store.githubStore.isConnected) {
+      setShowGitHubSettings(true);
+      return;
+    }
+    setShowCommitDialog(true);
+  };
+
+  const handleCommit = async (message: string) => {
+    await store.saveToGitHub(message);
+    setShowCommitDialog(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -23,12 +57,59 @@ const Index = () => {
             <p className="text-[11px] text-muted-foreground leading-tight">Total Cost of Ownership · Infrastructure Cost Modeling</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => store.importFromFile()}>
-              <Upload size={14} className="mr-1" /> Load
-            </Button>
-            <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => store.exportToFile()}>
-              <Download size={14} className="mr-1" /> Save
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-7 text-xs">
+                  <Upload size={14} className="mr-1" /> Load
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => store.importFromFile()}>
+                  <FileText size={14} className="mr-2" />
+                  From File
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLoadFromGitHub}>
+                  <Github size={14} className="mr-2" />
+                  From GitHub
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-7 text-xs">
+                  <Download size={14} className="mr-1" /> Save
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => store.exportToFile()}>
+                  <FileText size={14} className="mr-2" />
+                  To File
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleSaveToGitHub}
+                  disabled={!store.githubStore.isConnected}
+                >
+                  <Github size={14} className="mr-2" />
+                  To GitHub
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => setShowGitHubSettings(true)}>
+                  <Settings size={14} className="mr-2" />
+                  GitHub Settings
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <GitHubStatusIndicator
+              isConnected={store.githubStore.isConnected}
+              repoName={
+                store.githubStore.settings
+                  ? `${store.githubStore.settings.owner}/${store.githubStore.settings.repo}`
+                  : undefined
+              }
+              onClick={() => setShowGitHubSettings(true)}
+            />
           </div>
         </div>
       </header>
@@ -107,6 +188,37 @@ const Index = () => {
           />
         </section>
       </main>
+
+      {/* GitHub Dialogs */}
+      <GitHubSettingsDialog
+        open={showGitHubSettings}
+        onOpenChange={setShowGitHubSettings}
+        onConnect={store.githubStore.connectGitHub}
+        onSelectRepo={store.githubStore.selectRepository}
+        onSelectFile={store.githubStore.selectFile}
+        onDisconnect={store.githubStore.disconnectGitHub}
+        isConnected={store.githubStore.isConnected}
+        currentToken={store.githubStore.settings?.token}
+        currentRepo={
+          store.githubStore.settings
+            ? {
+                owner: store.githubStore.settings.owner,
+                repo: store.githubStore.settings.repo,
+              }
+            : undefined
+        }
+        currentPath={store.githubStore.settings?.path}
+        isLoading={store.githubStore.isLoading}
+        error={store.githubStore.lastError}
+      />
+
+      <CommitMessageDialog
+        open={showCommitDialog}
+        onOpenChange={setShowCommitDialog}
+        onCommit={handleCommit}
+        filePath={store.githubStore.settings?.path}
+        isLoading={store.githubStore.isLoading}
+      />
     </div>
   );
 };

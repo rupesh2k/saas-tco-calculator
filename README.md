@@ -13,6 +13,7 @@ An open-source Total Cost of Ownership (TCO) calculator for SaaS platforms and i
 - **Cost Per Unit Analysis**: Calculate cost per application, user, or any unit you define
 - **Growth Projections**: Model future costs with configurable growth rates and time periods
 - **Import/Export**: Save and load your TCO configurations as JSON files for team collaboration
+- **GitHub Integration**: Load and save configurations directly from GitHub repositories
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Dark Mode Support**: Built-in theme switching for comfortable viewing
 
@@ -78,6 +79,43 @@ A sample configuration file (`sample-tco-config.json`) is included with realisti
 2. Select `sample-tco-config.json` from the project root
 3. Review and modify the costs to match your infrastructure
 
+### GitHub Integration
+
+You can now save and load your TCO configurations directly from GitHub repositories:
+
+#### Setup
+
+1. Click "Save > GitHub Settings" in the application
+2. Generate a Personal Access Token:
+   - Go to [GitHub Settings > Tokens](https://github.com/settings/tokens/new?scopes=repo&description=TCO%20Calculator)
+   - Select the `repo` scope (full control of private repositories)
+   - Generate and copy your token
+3. Enter your token in the GitHub Settings dialog
+4. Select your repository from the list
+5. Browse and select your JSON file (or create a new one)
+6. Click "Save Settings"
+
+#### Loading from GitHub
+
+1. Click "Load > From GitHub"
+2. Your configuration will be loaded from the configured GitHub repository
+3. The app displays which repository and file you're connected to
+
+#### Saving to GitHub
+
+1. Click "Save > To GitHub"
+2. Enter a descriptive commit message
+3. Your configuration will be committed to GitHub
+4. The commit includes your changes with the message you provided
+
+#### Security Note
+
+Your GitHub token is stored locally in your browser's localStorage. For security:
+- Use a fine-grained Personal Access Token with minimal permissions
+- Only grant access to specific repositories if possible
+- Never share your token with others
+- Revoke tokens you no longer need at [GitHub Settings > Tokens](https://github.com/settings/tokens)
+
 ### Configuration File Format
 
 Configuration files are JSON format with the following structure:
@@ -121,10 +159,14 @@ Configuration files are JSON format with the following structure:
 ### Sharing Configurations
 
 Teams can:
-- Export configurations as JSON files
-- Store configurations in version control (git)
-- Share via email, Slack, or other channels
-- Maintain multiple scenarios (optimistic, pessimistic, realistic)
+- **Via GitHub**: Store configurations in a shared GitHub repository (recommended)
+  - Automatic version control and history
+  - Easy collaboration with commit messages
+  - Branch-based workflows for different scenarios
+- **Via Files**: Export configurations as JSON files
+  - Store in version control (git)
+  - Share via email, Slack, or other channels
+- **Multiple Scenarios**: Maintain different files for optimistic, pessimistic, and realistic projections
 
 ## Technology Stack
 
@@ -142,12 +184,18 @@ Teams can:
 saas-tco-calculator/
 ├── src/
 │   ├── components/
+│   │   ├── github/        # GitHub integration components
 │   │   ├── tco/           # TCO-specific components
 │   │   └── ui/            # Reusable UI components
 │   ├── hooks/
-│   │   └── useTCOStore.ts # Main state management
+│   │   ├── useTCOStore.ts # Main state management
+│   │   └── useGitHubStore.ts # GitHub integration
+│   ├── lib/
+│   │   ├── github.ts      # GitHub API client
+│   │   └── storage.ts     # Local storage utilities
 │   ├── types/
-│   │   └── tco.ts         # TypeScript types
+│   │   ├── tco.ts         # TCO TypeScript types
+│   │   └── github.ts      # GitHub TypeScript types
 │   ├── pages/
 │   │   └── Index.tsx      # Main application page
 │   └── App.tsx
